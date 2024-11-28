@@ -22,7 +22,7 @@ body {
     position: relative;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 620px;  /* Increased height for error messages */
     background: #fff;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -72,14 +72,42 @@ p {
     margin: 15px 0 20px;
 }
 
+.name-inputs {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.name-inputs .form-group {
+    flex: 1;
+}
+
+.form-group {
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+}
+
 input {
     background: #eee;
     padding: 12px 15px;
-    margin: 8px 15px;
     width: 100%;
     border-radius: 5px;
-    border: none;
+    border: 1px solid transparent;
     outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input.error {
+    border-color: #ff3b30;
+}
+
+small.error {
+    color: #ff3b30;
+    font-size: 12px;
+    min-height: 16px;
+    display: block;
+    margin-top: 4px;
 }
 
 a {
@@ -95,7 +123,7 @@ button {
     font-size: 12px;
     font-weight: bold;
     padding: 12px 55px;
-    margin: 20px;
+    margin: 15px;
     border-radius: 20px;
     border: 1px solid #465644;
     outline: none;
@@ -189,7 +217,7 @@ button:active {
 }
 
 .social-container {
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .social-container a {
@@ -201,4 +229,19 @@ button:active {
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        min-height: 640px;
+    }
+
+    .name-inputs {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    form {
+        padding: 0 30px;
+    }
 }
