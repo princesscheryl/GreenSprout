@@ -22,7 +22,7 @@ body {
     position: relative;
     width: 768px;
     max-width: 100%;
-    min-height: 620px;  /* Increased height for error messages */
+    min-height: 620px; 
     background: #fff;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -84,7 +84,7 @@ p {
 
 .form-group {
     width: 100%;
-    margin: 5px 0;
+    margin: 8px 0;
     text-align: left;
 }
 
@@ -217,7 +217,7 @@ button:active {
 }
 
 .social-container {
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .social-container a {
@@ -229,6 +229,41 @@ button:active {
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 50%;
+}
+
+select {
+    background-color: #eee;
+    padding: 12px 15px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    outline: none;
+    font-size: 14px;
+    margin: 5px 0;
+    transition: border-color 0.3s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px) center;
+    padding-right: 35px;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #465644;
+}
+
+select.error {
+    border-color: #ff3b30;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #333;
 }
 
 @media (max-width: 768px) {
@@ -244,4 +279,46 @@ button:active {
     form {
         padding: 0 30px;
     }
+}
+
+/* Style the select options */
+select option {
+    background: #fff;
+    color: #333;
+    padding: 8px;
+}
+
+/* Disabled option styling */
+select option:disabled {
+    color: #999;
+}
+
+/* Ensure proper spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+header .header-content a {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+header .header-content a:hover {
+    color: #4CAF50;
+}
+
+.sidebar-header a {
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.sidebar-header a:hover {
+    color: #4CAF50;
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: bold;
 }

@@ -1,197 +1,141 @@
-//retrieve all the elements needed
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.getElementById('container');
+// Path: assets/js/validation.js
 
-//get form elements for Sign Up
-const signupForm = document.getElementById('signupForm');
-const firstName = document.getElementById('firstName');
-const lastName = document.getElementById('lastName');
-const username = document.getElementById('username');
-const signupEmail = document.getElementById('signupEmail');
-const signupPassword = document.getElementById('signupPassword');
-const confirmPassword = document.getElementById('confirmPassword');
+// Wait for the DOM content to load
+document.addEventListener("DOMContentLoaded", () => {
+    // Sign In Form Validation
+    const signInForm = document.querySelector("#signinForm");
+    const signInButton = document.querySelector("#signInButton");
 
-//get form elements for sign in
-const signinForm = document.getElementById('signinForm');
-const signinEmail = document.getElementById('signinEmail');
-const signinPassword = document.getElementById('signinPassword');
+    if (signInForm && signInButton) {
+        signInButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            
+            const identifier = document.querySelector("input[name='identifier']")?.value;
+            const password = document.querySelector("input[name='password']")?.value;
 
-//handle the sliding animation between panels
-signUpButton.addEventListener('click', () => {
-    container.classList.add('right-panel-active');
-});
-
-signInButton.addEventListener('click', () => {
-    container.classList.remove('right-panel-active');
-});
-
-//check if an email is valid
-function checkEmail(email) {
-    
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-}
-
-// check if a password meets all requirements
-function checkPassword(password) {
-    //check password requirements one by one
-    const isLongEnough = password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasEnoughNumbers = (password.match(/\d/g) || []).length >= 3;
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    //return an object with the results
-    return {
-        isValid: isLongEnough && hasUpperCase && hasEnoughNumbers && hasSpecialChar,
-        errors: {
-            length: !isLongEnough,
-            uppercase: !hasUpperCase,
-            numbers: !hasEnoughNumbers,
-            special: !hasSpecialChar
-        }
-    };
-}
-
-// show an error message under an input
-function showError(inputElement, message) {
-    const errorDisplay = inputElement.nextElementSibling;
-    errorDisplay.textContent = message;
-    inputElement.classList.add('error');
-}
-
-//to clear an error message
-function clearError(inputElement) {
-    const errorDisplay = inputElement.nextElementSibling;
-    errorDisplay.textContent = '';
-    inputElement.classList.remove('error');
-}
-
-//to create password error message
-function getPasswordErrorMessage(validationResult) {
-    let errors = [];
-    if (validationResult.errors.length) {
-        errors.push("at least 8 characters");
-    }
-    if (validationResult.errors.uppercase) {
-        errors.push("one uppercase letter");
-    }
-    if (validationResult.errors.numbers) {
-        errors.push("three numbers");
-    }
-    if (validationResult.errors.special) {
-        errors.push("one special character");
-    }
-    return "Password needs: " + errors.join(", ");
-}
-
-//handle sign up form submission
-signupForm.addEventListener('submit', function(event) {
-    // Prevent the form from submitting normally
-    event.preventDefault();
-    
-    let formIsValid = true;
-
-    //check if all required fields are filled
-    if (firstName.value.trim() === '') {
-        showError(firstName, 'First name is required');
-        formIsValid = false;
-    } else {
-        clearError(firstName);
+            if (validateSignInForm(identifier, password)) {
+                signInForm.submit();
+            } else {
+                alert("Invalid email/username or password. Please try again.");
+            }
+        });
     }
 
-    if (lastName.value.trim() === '') {
-        showError(lastName, 'Last name is required');
-        formIsValid = false;
-    } else {
-        clearError(lastName);
-    }
+    // Sign Up Form Validation
+    const signUpForm = document.querySelector("#signupForm");
+    if (signUpForm) {
+        signUpForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            
+            // Get form values
+            const firstName = document.querySelector("#firstName")?.value;
+            const lastName = document.querySelector("#lastName")?.value;
+            const username = document.querySelector("#username")?.value;
+            const email = document.querySelector("#signupEmail")?.value;
+            const password = document.querySelector("#signupPassword")?.value;
+            const confirmPassword = document.querySelector("#confirmPassword")?.value;
+            const skillLevel = document.querySelector("#skill_level")?.value;
 
-    if (username.value.trim() === '') {
-        showError(username, 'Username is required');
-        formIsValid = false;
-    } else {
-        clearError(username);
-    }
+            // Validate form
+            if (validateSignUpForm(firstName, lastName, username, email, password, confirmPassword, skillLevel)) {
+                try {
+                    const formData = new FormData(signUpForm);
+                    const response = await fetch(window.location.href, {
+                        method: 'POST',
+                        body: formData
+                    });
 
-    //check email
-    if (signupEmail.value.trim() === '') {
-        showError(signupEmail, 'Email is required');
-        formIsValid = false;
-    } else if (!checkEmail(signupEmail.value.trim())) {
-        showError(signupEmail, 'Please enter a valid email');
-        formIsValid = false;
-    } else {
-        clearError(signupEmail);
-    }
-
-    //ceck password
-    if (signupPassword.value === '') {
-        showError(signupPassword, 'Password is required');
-        formIsValid = false;
-    } else {
-        const passwordCheck = checkPassword(signupPassword.value);
-        if (!passwordCheck.isValid) {
-            showError(signupPassword, getPasswordErrorMessage(passwordCheck));
-            formIsValid = false;
-        } else {
-            clearError(signupPassword);
-        }
-    }
-
-    //check if passwords typed match
-    if (confirmPassword.value === '') {
-        showError(confirmPassword, 'Please confirm your password');
-        formIsValid = false;
-    } else if (confirmPassword.value !== signupPassword.value) {
-        showError(confirmPassword, 'Passwords do not match');
-        formIsValid = false;
-    } else {
-        clearError(confirmPassword);
-    }
-
-    //submit if all the details are valid
-    if (formIsValid) {
-        alert('Welcome New Sprout!');
-        signupForm.reset(); 
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        window.location.href = data.redirect;
+                    } else {
+                        alert(data.message || 'Registration failed. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Registration failed. Please try again.');
+                }
+            }
+        });
     }
 });
 
-//handle sign in form submission
-signinForm.addEventListener('submit', function(event) {
-    // prevent the form from submitting normally
-    event.preventDefault();
-    
-    let formIsValid = true;
+function validateSignInForm(identifier, password) {
+    if (!identifier || !password) {
+        return false;
+    }
+    return true;
+}
 
-    //check email
-    if (signinEmail.value.trim() === '') {
-        showError(signinEmail, 'Email is required');
-        formIsValid = false;
-    } else if (!checkEmail(signinEmail.value.trim())) {
-        showError(signinEmail, 'Please enter a valid email');
-        formIsValid = false;
-    } else {
-        clearError(signinEmail);
+function validateSignUpForm(firstName, lastName, username, email, password, confirmPassword, skillLevel) {
+    // Clear previous error messages
+    clearErrors();
+    let isValid = true;
+
+    // First Name validation
+    if (!firstName || firstName.length < 2) {
+        showError('firstNameError', 'First name is required (minimum 2 characters)');
+        isValid = false;
     }
 
-    //check password
-    if (signinPassword.value === '') {
-        showError(signinPassword, 'Password is required');
-        formIsValid = false;
-    } else {
-        const passwordCheck = checkPassword(signinPassword.value);
-        if (!passwordCheck.isValid) {
-            showError(signinPassword, 'Invalid password format');
-            formIsValid = false;
-        } else {
-            clearError(signinPassword);
-        }
+    // Last Name validation
+    if (!lastName || lastName.length < 2) {
+        showError('lastNameError', 'Last name is required (minimum 2 characters)');
+        isValid = false;
     }
 
-    //submit if details are valid
-    if (formIsValid) {
-        alert('Sign In successful!');
-        signinForm.reset(); 
+    // Username validation
+    if (!username || username.length < 3) {
+        showError('usernameError', 'Username is required (minimum 3 characters)');
+        isValid = false;
     }
-});
+
+    // Email validation
+    if (!email || !isValidEmail(email)) {
+        showError('signupEmailError', 'Please enter a valid email address');
+        isValid = false;
+    }
+
+    // Password validation
+    if (!password || password.length < 6) {
+        showError('signupPasswordError', 'Password must be at least 6 characters long');
+        isValid = false;
+    }
+
+    // Confirm Password validation
+    if (password !== confirmPassword) {
+        showError('confirmPasswordError', 'Passwords do not match');
+        isValid = false;
+    }
+
+    // Skill Level validation
+    if (!skillLevel) {
+        showError('skill_level', 'Please select your gardening experience level');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.color = 'red';
+        errorElement.style.fontSize = '12px';
+        errorElement.style.marginTop = '5px';
+    }
+}
+
+function clearErrors() {
+    const errorElements = document.querySelectorAll('.error');
+    errorElements.forEach(element => {
+        element.textContent = '';
+    });
+}

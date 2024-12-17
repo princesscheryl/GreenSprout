@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #f8f8f8, #e8ece4);
+    color: #2e392d;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    width: 100%;
+    background: #2e392d;
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #b5c6a6;
+}
+
+main {
+    margin-top: 80px;
+    text-align: center;
+    padding: 20px;
+}
+
+#welcome {
+    margin-bottom: 40px;
+}
+
+#welcome h1 {
+    font-size: 2.5em;
+    color: #2e392d;
+}
+
+#welcome p {
+    font-size: 1.2em;
+    color: #465644;
+}
+
+#carousel {
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 90%;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    padding: 10px;
+}
+
+.carousel-item {
+    flex: none;
+    scroll-snap-align: center;
+    background: #e8ece4;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 300px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1.2em;
+    color: #2e392d;
+}
+
+#weather-widget {
+    margin-top: 40px;
+}
+
+#weather-widget h2 {
+    font-size: 1.8em;
+    color: #2e392d;
+    margin-bottom: 10px;
+}
+
+#weather-info {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+    color: #465644;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+    background: #2e392d;
+    color: #fff;
+    font-size: 0.9em;
+}
